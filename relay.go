@@ -22,7 +22,7 @@ type NodeData struct {
 
 var (
 	Address = "0.0.0.0"
-	Port    = "8080"
+	Port    = "9000"
 
 	NodeID = 0
 	NodeEx = "cnterra-node-data"
