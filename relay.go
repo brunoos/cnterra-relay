@@ -9,8 +9,6 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/google/uuid"
-
 	amqp "github.com/rabbitmq/amqp091-go"
 )
 
@@ -100,22 +98,19 @@ func relay(conn net.Conn) {
 		return
 	}
 
-	relayName := fmt.Sprintf("relay-%d-%s", NodeID, uuid.NewString())
 	msgs, err := channel.Consume(
-		q.Name,    // queue
-		relayName, // consumer
-		true,      // auto ack
-		false,     // exclusive
-		false,     // no local
-		false,     // no wait
-		nil,       // args
+		q.Name, // queue
+		"",     // consumer
+		true,   // auto ack
+		false,  // exclusive
+		false,  // no local
+		false,  // no wait
+		nil,    // args
 	)
 	if err != nil {
 		fmt.Println("[ERRO] Error to register a consumer:", err)
 		return
 	}
-
-	defer channel.Cancel(relayName, true)
 
 	nodeData := NodeData{}
 	for msg := range msgs {
